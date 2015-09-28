@@ -14,7 +14,7 @@ module AES
       key = ::AES::AES.new("").random_key(length)
       case format
       when :base_64
-        Base64.encode64(key).chomp
+        Base64.urlsafe_encode64(key).chomp
       else
         key
       end
@@ -25,7 +25,7 @@ module AES
       iv = ::AES::AES.new("").random_iv
       case format
       when :base_64
-        Base64.encode64(iv).chomp
+        Base64.urlsafe_encode64(iv).chomp
       else
         iv
       end      
@@ -104,14 +104,14 @@ module AES
       def b64_d(data)
         iv_and_ctext = []
         data.split('$').each do |part|
-          iv_and_ctext << Base64.decode64(part)
+          iv_and_ctext << Base64.urlsafe_decode64(part)
         end
         iv_and_ctext
       end
   
       # Base64 Encodes a string
       def b64_e(data)
-        Base64.encode64(data).chomp
+        Base64.urlsafe_encode64(data).chomp
       end
   
       # Encrypts @plain_text
@@ -137,7 +137,7 @@ module AES
 
         case @options[:format]
         when :base_64
-          @iv  = Base64.decode64(@options[:iv])
+          @iv  = Base64.urlsafe_decode64(@options[:iv])
         end
       end
       
